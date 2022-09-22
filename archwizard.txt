@@ -1,0 +1,112 @@
+archwizard needs a valid daimoninDir (the folder above arch folder)
+config file currently supports:
+path daimoninDir
+editor externeditorpath
+
+you can use config -> set path to set the path to daimoninDir, but this will overwrite the whole config and delete other definitions like editor
+alternate you can load config, change the definitions in text editor and save this back
+
+textfield:
+can handle all menu commands, commands starts with @, without @ it goes to search mode
+@number shows XObject at this index (more for debug)
+show artifact by index use numbers greater than archetype.size
+@+ and @- to browse XObject (more for debug)
+
+search mode
+you can search for equal or startwith using * as last char
+* alone shows all objects
+
+examples:
+Object bread
+Object bread*
+artifact a*
+
+showing all artifacts is currently "Object " with one whitespace (all artifacts should have empty Object definitions)
+show all food you must search for type 6 and so on ...
+
+@search
+you can search for a selected text now, mark text, rightclick+search (only work with marked textarea in out tab)
+
+@write (ctrl-w)
+will write changes in table back to files
+after write, see debug log for infos.
+function is currently very brute logic, read/write same file again and again for each object change
+ctrl+key also activated cell edit mode, so this is double functionality on ctrl-w
+!carefully must be tested, don't try things like write null to end or object/artifact attributes, this will delete the lines and brake the logics
+
+@save
+you can save everytime the content of this textarea using @save, file @save or right click @save
+
+@load
+you can mark a path and choose load, if path is a valid file, filechooser picks this for default option (only work with marked textarea in out tab)
+
+@extern
+you can define an extern editor in archwizard, if path is correct you can start editor with @editor
+you can mark a path and choose editor to open this file in extern editor (only work with marked textarea in out tab)
+tested this with notepad++ on win 10
+
+!If you made changes and used text save mechanics from outside or using intern textfile save function, currently memory data is not updated
+You can do this manuell with reset function, i don't want to force a reset on each small textchange in raw data.
+
+@export
+export exports the data filtered by search command and filtered by attribute filter
+so its same than the table, export writes data to your selected file in .csv format
+
+@import
+import tries to import from .csv format, it can only import, if it finds a unique key like Object or artifact and it can only import in existing objects.
+after import see errors/warning or log it was successful, after that you also need a @write command and check if this was also successfull
+
+errorlog/warning
+if operations output errors/warning counter in statusfield, you can look in debug in this logs
+
+@trim this
+trims current textarea, after trimmed you need to save file
+archetypes looks clean, it's only artifacts and perhaps in future unique errors in archetypes, so "trim this" is enough, currently no need for a "trim all" logic
+
+TAB toogles through GUI - Object, in textarea it insert tabs
+STRG-TAB toogles through GUI - Object
+Cursor-Keys navigate textfield, textarea, list, tab, table
+
+ESC Key, terminate process
+F2 edit cell (in table edit)
+@edit cells (input window) - ! this overwrites all selected rows, columns with the input from user, to delete attributes write "null"
+Data->write - write all changes to files
+Collect->Collect archetypes - ! build the archetypes in lib-folder
+!it builds with an empty line between objects, so different from other collect logics, but works fine on server init.
+
+STRG-A select all
+STRG-C copy
+STRG-V paste
+STRG-X cut
+
+STRG-< search
+STRG-+ @+
+STRG--  @-
+
+STRG-S save
+STRG-L load
+STRG-E editor (extern) starting extern programm looses keyfocus
+
+STRG-F Filter (toogles Filter view on/off)
+Select all on filter is same result than select nothing, because nothing is a filter off toggle
+filter is working realtime, rebuilding tableheaders and firetable to rebuild
+select all strg-a
+select none, select one, select this again with strg-key
+select block with shift key
+select multi with strg-key
+rightclick menu on filter has 2 commands
+lock (all selected attributes will be "locked", this means the filter list is sorted with only this attributes to make the list better readable)
+unlock (is more a reset of this list and shows again all attributes)
+!the search command automaticaly locks the attributes search found
+
+STRG-ENTER keyfocus cmdfield
+STRG-SPACE keyfocus cmdfield+clear this field
+STRG-O keyfocus cmdfield + write Object+whitespace in cmdfield
+
+other working combinations
+in cmdfield, strg-a, str-x clean field (now you can use str-space)
+
+protoarc is imported, currently not used
+
+Backup (backup, restore, delete)
+currently only working on .arc files in arch folder
