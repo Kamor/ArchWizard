@@ -1,4 +1,6 @@
 // archwizard - v0.0 - kamor - 22.09.2022
+// License GNU 3.0
+
 // java has no delete object / java uses garbage collector / setting object to null, will speed up garbage collection / java can clear arraylists
 // ArrayList can not handle <int>, we need <Integer>
 import java.util.ArrayList;
